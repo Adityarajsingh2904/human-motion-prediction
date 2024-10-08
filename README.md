@@ -1,18 +1,18 @@
 
-# 🕺 PoseFutureNet – Human Motion Prediction with GCN & DCT
+# 🧍‍♂️ human-motion-prediction – GCN + DCT Based Human Pose Forecasting
 
-**PoseFutureNet** is a graph-based deep learning model designed to predict future human motion sequences.  
-It integrates **Discrete Cosine Transform (DCT)** and **Multi-Scale Residual Graph Convolutional Networks (MSR-GCN)** to deliver state-of-the-art performance on benchmark datasets like **Human3.6M** and **CMU Mocap**.
+**human-motion-prediction** is a graph-based deep learning model designed to forecast future human motion sequences.  
+It leverages **Discrete Cosine Transform (DCT)** and **Multi-Scale Residual Graph Convolutional Networks (MSR-GCN)** to achieve state-of-the-art performance on standard datasets like **Human3.6M** and **CMU Mocap**.
 
 ---
 
 ## 📌 Key Features
 
-- 🔁 Predicts 50 future frames from 25 past frames
-- ⚙️ Multi-scale residual learning architecture
-- 🌐 Graph-based modeling of human skeletons
-- 🎯 Outperforms prior SOTA on Human3.6M & CMU datasets
-- 🧪 Extensive evaluation and comparison
+- 📹 Predicts 50 future frames from 25 past frames
+- 🧠 Multi-scale residual GCN architecture
+- 🦴 Graph-based modeling of human skeletons
+- 🏆 Outperforms prior SOTA on Human3.6M & CMU datasets
+- 📊 Extensive evaluation and comparison
 
 ---
 
@@ -21,7 +21,7 @@ It integrates **Discrete Cosine Transform (DCT)** and **Multi-Scale Residual Gra
 The model encodes spatiotemporal skeleton features using:
 - **DCT transforms** for frequency-domain encoding
 - **Multi-scale GCN blocks** for joint dependency modeling
-- **Residual connections** and **intermediate losses** for enhanced supervision
+- **Residual connections and intermediate losses** for enhanced supervision
 
 ---
 
@@ -29,52 +29,50 @@ The model encodes spatiotemporal skeleton features using:
 
 ```
 human-motion-prediction/
-├── main.py               # Training and evaluation entry
-├── short_term_main.py    # For shorter prediction tasks
-├── model/                # GCN and residual architecture
-├── data/                 # Dataset preprocessing and loaders
-├── README.md             # Project overview
+├── main.py               # Entry point for training and testing
+├── short_term_main.py    # For short-term prediction
+├── model/                # Core GCN architecture
+├── data/                 # Data loading and processing scripts
+├── README.md             # This file
 ```
 
 ---
 
-## 🔧 Setup & Dependencies
+## 🚀 Getting Started
 
-### ✅ Requirements
+### Requirements
 
 - Python 3.8+
-- PyTorch ≥ 1.7.0 (with CUDA)
-- GPU: NVIDIA RTX 3090 recommended
+- PyTorch ≥ 1.7.0 (CUDA recommended)
+- NVIDIA GPU (e.g., RTX 3090)
 
-### 🛠 Installation
+### Installation
 
 ```bash
-git clone https://github.com/Adityarajsingh2904/PoseFutureNet.git
-cd PoseFutureNet
+git clone https://github.com/Adityarajsingh2904/human-motion-prediction.git
+cd human-motion-prediction
 pip install -r requirements.txt
 ```
 
 ---
 
-## 📥 Dataset
+## 📥 Datasets
 
-Download Human3.6M and CMU datasets:
-
-- [Human3.6M](http://vision.imar.ro/human3.6m/description.php) – [H3.6M ZIP](http://www.cs.stanford.edu/people/ashesh/h3.6m.zip)
+- [Human3.6M](http://www.cs.stanford.edu/people/ashesh/h3.6m.zip)
 - [CMU Mocap](http://mocap.cs.cmu.edu/)
 
 ---
 
-## 🧪 Training & Testing
+## 🧪 Usage
 
 ```bash
-python main.py              # Full model training
-python short_term_main.py   # Short-term prediction evaluation
+python main.py              # Train & evaluate
+python short_term_main.py   # Short-term pose prediction
 ```
 
 ---
 
-## 👨‍💻 Maintainer
+## 👤 Maintainer
 
 **Aditya Raj Singh**  
 📧 thisis.adityarajsingh@gmail.com  
@@ -84,6 +82,4 @@ python short_term_main.py   # Short-term prediction evaluation
 
 ## 📜 License
 
-This project is released under the MIT License.
-
----
+Distributed under the **MIT License**. See `LICENSE` for more info.
