@@ -215,6 +215,79 @@ def plot_confidence_overlay(predicted_seq, ground_truth_seq, save_path=None):
         plt.close(fig)
 
 
+def animate_prediction_errors(
+    predicted_seq,
+    ground_truth_seq,
+    save_video_path="output.mp4",
+    fps=10,
+):
+    """Generate an animation of prediction errors as a video.
+
+    Each joint of the predicted pose is colored based on the per-joint error
+    relative to the ground truth pose. Blue indicates low error while red
+    indicates high error.
+
+    Args:
+        predicted_seq (np.ndarray): Sequence of predicted poses of shape
+            ``(T, J, 3)``.
+        ground_truth_seq (np.ndarray): Sequence of ground truth poses with the
+            same shape as ``predicted_seq``.
+        save_video_path (str): Path of the exported ``.mp4`` file.
+        fps (int): Frames per second for the output video.
+    """
+
+    assert predicted_seq.shape == ground_truth_seq.shape
+    T, J, _ = predicted_seq.shape
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection="3d")
+    scat = ax.scatter([], [], [], c=[], s=60)
+
+    def update(t):
+        pred = predicted_seq[t]
+        gt = ground_truth_seq[t]
+        errors = np.linalg.norm(pred - gt, axis=1)
+        max_error = np.max(errors) + 1e-6
+        colors = [plt.cm.jet(e / max_error) for e in errors]
+
+        scat._offsets3d = (pred[:, 0], pred[:, 1], pred[:, 2])
+        scat.set_color(colors)
+        ax.set_title(f"Frame {t + 1}")
+        ax.set_xlim(-1, 1)
+        ax.set_ylim(-1, 1)
+        ax.set_zlim(-1, 1)
+        return scat,
+
+    FuncAnimation(fig, update, frames=T, interval=1000 // fps)
+
+    temp_dir = "temp_frames"
+    os.makedirs(temp_dir, exist_ok=True)
+
+    for t in range(T):
+        update(t)
+        plt.savefig(f"{temp_dir}/frame_{t:04d}.png")
+
+    frame = cv2.imread(f"{temp_dir}/frame_0000.png")
+    height, width, _ = frame.shape
+    out = cv2.VideoWriter(
+        save_video_path,
+        cv2.VideoWriter_fourcc(*"mp4v"),
+        fps,
+        (width, height),
+    )
+
+    for t in range(T):
+        frame = cv2.imread(f"{temp_dir}/frame_{t:04d}.png")
+        out.write(frame)
+
+    out.release()
+    plt.close(fig)
+
+    for f in os.listdir(temp_dir):
+        os.remove(os.path.join(temp_dir, f))
+    os.rmdir(temp_dir)
+
+
 if __name__ == "__main__":
     import numpy as np
 
