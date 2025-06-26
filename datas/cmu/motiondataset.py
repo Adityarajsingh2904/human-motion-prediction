@@ -5,7 +5,7 @@ from torch.utils.data import Dataset
 import numpy as np
 import os
 from .. import data_utils
-from ..multi_scale import downs_from_22
+from .. import multi_scale
 
 class MotionDataset(Dataset):
 
@@ -45,7 +45,7 @@ class MotionDataset(Dataset):
         gt_22 = gt_32[:, dim_use, :]  # # b, 75, 35
 
         gt_all_scales = {'p32': gt_32, 'p22': gt_22}
-        gt_all_scales = downs_from_22(gt_all_scales, down_key=down_key)
+        gt_all_scales = multi_scale.downs_from_22(gt_all_scales, down_key=down_key)
         input_all_scales = {}
         for k in gt_all_scales.keys():
             input_all_scales[k] = np.concatenate((gt_all_scales[k][:, :, :input_n],
