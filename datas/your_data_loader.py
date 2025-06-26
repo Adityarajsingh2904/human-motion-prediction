@@ -1,7 +1,11 @@
 import logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s"
+)
 
 import numpy as np
+
 
 class DataLoader:
     def __init__(self, path):
@@ -11,7 +15,7 @@ class DataLoader:
     def load(self):
         logging.info("Loading data from %s", self.path)
         try:
-            self.data = np.loadtxt(self.path, delimiter=',')
+            self.data = np.loadtxt(self.path, delimiter=",")
         except Exception as e:
             logging.error("Failed to load data: %s", e)
             raise
@@ -22,7 +26,9 @@ class DataLoader:
         logging.info("Preprocessing data")
         if self.data is None:
             raise ValueError("No data loaded")
-        self.data = (self.data - np.mean(self.data, axis=0)) / (np.std(self.data, axis=0) + 1e-8)
+        self.data = (self.data - np.mean(self.data, axis=0)) / (
+            np.std(self.data, axis=0) + 1e-8
+        )
         logging.info("Finished preprocessing data")
         return self.data
 
@@ -30,5 +36,5 @@ class DataLoader:
         logging.info("Saving data to %s", out_path)
         if self.data is None:
             raise ValueError("No data to save")
-        np.savetxt(out_path, self.data, delimiter=',')
+        np.savetxt(out_path, self.data, delimiter=",")
         logging.info("Finished saving data")

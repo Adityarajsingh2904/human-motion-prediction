@@ -1,20 +1,24 @@
 #!/usr/bin/env python
 import logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s"
+)
 # encoding: utf-8
-'''
+"""
 @project : MSRGCN
 @file    : layers.py
 @author  : Droliven
 @contact : droliven@163.com
 @ide     : PyCharm
 @time    : 2021-07-27 16:45
-'''
+"""
 
 import torch
 import torch.nn as nn
 from torch.nn.parameter import Parameter
 import math
+
 
 class GraphConvolution(nn.Module):
     """
@@ -25,16 +29,16 @@ class GraphConvolution(nn.Module):
         super(GraphConvolution, self).__init__()
         self.in_features = in_features
         self.out_features = out_features
-        self.weight = Parameter(torch.FloatTensor(in_features, out_features)) # W
+        self.weight = Parameter(torch.FloatTensor(in_features, out_features))  # W
         self.att = Parameter(torch.FloatTensor(node_n, node_n))  # A
         if bias:
             self.bias = Parameter(torch.FloatTensor(out_features))
         else:
-            self.register_parameter('bias', None)
+            self.register_parameter("bias", None)
         self.reset_parameters()
 
     def reset_parameters(self):
-        stdv = 1. / math.sqrt(self.weight.size(1))
+        stdv = 1.0 / math.sqrt(self.weight.size(1))
         self.weight.data.uniform_(-stdv, stdv)
         self.att.data.uniform_(-stdv, stdv)
         if self.bias is not None:
@@ -50,9 +54,14 @@ class GraphConvolution(nn.Module):
             return output
 
     def __repr__(self):
-        return self.__class__.__name__ + ' (' \
-               + str(self.in_features) + ' -> ' \
-               + str(self.out_features) + ')'
+        return (
+            self.__class__.__name__
+            + " ("
+            + str(self.in_features)
+            + " -> "
+            + str(self.out_features)
+            + ")"
+        )
 
 
 class GC_Block(nn.Module):
@@ -91,9 +100,14 @@ class GC_Block(nn.Module):
         return y
 
     def __repr__(self):
-        return self.__class__.__name__ + ' (' \
-               + str(self.in_features) + ' -> ' \
-               + str(self.out_features) + ')'
+        return (
+            self.__class__.__name__
+            + " ("
+            + str(self.in_features)
+            + " -> "
+            + str(self.out_features)
+            + ")"
+        )
 
 
 class PreGCN(nn.Module):
@@ -153,11 +167,11 @@ class SingleLeftLinear(nn.Module):
         self.do = nn.Dropout(p_dropout)
 
     def forward(self, input):
-        '''
+        """
 
         :param input: B, 66, 64
         :return: y: B, 66, 35
-        '''
+        """
         input = input.permute(0, 2, 1).contiguous()  # b， 64， 66
         y = self.linear(input)
         b, n, f = y.shape
@@ -183,11 +197,11 @@ class SingleRightLinear(nn.Module):
         self.do = nn.Dropout(p_dropout)
 
     def forward(self, input):
-        '''
+        """
 
         :param input: B, 66, 35
         :return: y: B, 66, 35
-        '''
+        """
         y = self.linear(input)
         b, n, f = y.shape
         y = self.bn(y.view(b, -1)).view(b, n, f)
