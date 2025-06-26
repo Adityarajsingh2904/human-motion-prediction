@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 # encoding: utf-8
 
 import numpy as np
@@ -7,6 +9,8 @@ import torch
 import os
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def seed_torch(seed=3450):
     # random.seed(seed)
@@ -65,6 +69,8 @@ elif args.exp_name == "cmu":
                    device=args.device, num_works=args.num_works,
                    test_manner=args.test_manner, debug_step=args.debug_step)
     acts = define_actions_cmu("all")
+
+r.model.to(device)
 
 if args.is_load:
     r.restore(args.model_path)

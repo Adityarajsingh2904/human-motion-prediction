@@ -1,20 +1,24 @@
+import logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 import os
 import getpass
 import torch
 import numpy as np
 
 class Config():
-    def __init__(self, exp_name="h36m", input_n=10, output_n=10, dct_n=15, device="cuda:0", num_works=0, test_manner="all"):
+    def __init__(self, exp_name="h36m", input_n=10, output_n=10, dct_n=15,
+                 device="cuda:0", num_works=0, test_manner="all",
+                 train_batch_size=16, lr=2e-4, n_epoch=5000):
         self.platform = getpass.getuser()
         assert exp_name in ["h36m", "cmu", "3dpw"]
         self.exp_name = exp_name
 
         self.p_dropout = 0.1
-        self.train_batch_size = 16
+        self.train_batch_size = train_batch_size
         self.test_batch_size = 128
-        self.lr = 2e-4
+        self.lr = lr
         self.lr_decay = 0.98
-        self.n_epoch = 5000
+        self.n_epoch = n_epoch
         self.leaky_c = 0.2
 
         self.test_manner = test_manner

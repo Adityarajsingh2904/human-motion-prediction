@@ -1,3 +1,5 @@
+import logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 import numpy as np
 import random
 import torch
@@ -35,6 +37,9 @@ parser.add_argument('--device', type=str, default="cuda:0", help="")
 parser.add_argument('--num_works', type=int, default=0)
 parser.add_argument('--test_manner', type=str, default="all", help="all / 8")
 parser.add_argument('--debug_step', type=int, default=1, help="")
+parser.add_argument('--batch-size', type=int, default=16, help="training batch size")
+parser.add_argument('--epochs', type=int, default=5000, help="number of epochs")
+parser.add_argument('--learning-rate', type=float, default=2e-4, help="initial learning rate")
 parser.add_argument('--is_train', type=bool, default='', help="")
 parser.add_argument('--is_load', type=bool, default='', help="")
 parser.add_argument('--model_path', type=str, default="", help="")
@@ -51,26 +56,34 @@ if args.dct == True:
     if args.exp_name == "h36m":
         r = H36MRunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=args.dct_n,
                        device=args.device, num_works=args.num_works,
-                       test_manner=args.test_manner, debug_step=args.debug_step)
+                       test_manner=args.test_manner, debug_step=args.debug_step,
+                       batch_size=args.batch_size, epochs=args.epochs,
+                       learning_rate=args.learning_rate)
         acts = define_actions("all")
 
     elif args.exp_name == "cmu":
         r = CMURunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=args.dct_n,
                       device=args.device, num_works=args.num_works,
-                      test_manner=args.test_manner, debug_step=args.debug_step)
+                      test_manner=args.test_manner, debug_step=args.debug_step,
+                      batch_size=args.batch_size, epochs=args.epochs,
+                      learning_rate=args.learning_rate)
         acts = define_actions_cmu("all")
 
 else:
     if args.exp_name == "h36m":
         r = H36MRunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=0,
                        device=args.device, num_works=args.num_works,
-                       test_manner=args.test_manner, debug_step=args.debug_step)
+                       test_manner=args.test_manner, debug_step=args.debug_step,
+                       batch_size=args.batch_size, epochs=args.epochs,
+                       learning_rate=args.learning_rate)
         acts = define_actions("all")
 
     elif args.exp_name == "cmu":
         r = CMURunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=0,
                       device=args.device, num_works=args.num_works,
-                      test_manner=args.test_manner, debug_step=args.debug_step)
+                      test_manner=args.test_manner, debug_step=args.debug_step,
+                      batch_size=args.batch_size, epochs=args.epochs,
+                      learning_rate=args.learning_rate)
         acts = define_actions_cmu("all")
 
 if args.is_load:

@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 # encoding: utf-8
 
 from datas_dct import CMUMotionDataset, get_dct_matrix, reverse_dct_torch, define_actions_cmu, draw_pic_gt_pred
@@ -45,13 +47,18 @@ def lr_decay(optimizer, lr_now, gamma):
     return lr
 
 class CMURunner():
-    def __init__(self, exp_name="cmu", input_n=10, output_n=10, dct_n=15, device="cuda:0", num_works=0, test_manner="all", debug_step=1):
+    def __init__(self, exp_name="cmu", input_n=10, output_n=10, dct_n=15,
+                 device="cuda:0", num_works=0, test_manner="all", debug_step=1,
+                 batch_size=16, epochs=5000, learning_rate=2e-4):
         super(CMURunner, self).__init__()
 
         self.start_epoch = 1
         self.best_accuracy = 1e15
 
-        self.cfg = Config(exp_name=exp_name, input_n=input_n, output_n=output_n, dct_n=dct_n, device=device, num_works=num_works, test_manner=test_manner)
+        self.cfg = Config(exp_name=exp_name, input_n=input_n, output_n=output_n,
+                         dct_n=dct_n, device=device, num_works=num_works,
+                         test_manner=test_manner, train_batch_size=batch_size,
+                         lr=learning_rate, n_epoch=epochs)
         print("\n================== Configs =================")
         pprint(vars(self.cfg), indent=4)
         print("==========================================\n")
