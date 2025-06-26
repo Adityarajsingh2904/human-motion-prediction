@@ -9,7 +9,7 @@ import argparse
 class Config():
     def __init__(self, exp_name="h36m", input_n=10, output_n=10, dct_n=15,
                  device="cuda:0", num_works=0, test_manner="all",
-                 train_batch_size=16, lr=2e-4, n_epoch=5000):
+                 train_batch_size=16, lr=2e-4, n_epoch=5000, data_dir=None):
         self.platform = getpass.getuser()
         assert exp_name in ["h36m", "cmu", "3dpw"]
         self.exp_name = exp_name
@@ -123,10 +123,27 @@ class Config():
         if not os.path.exists(os.path.join(self.ckpt_dir, "images")):
             os.makedirs(os.path.join(self.ckpt_dir, "images"))
 
-        if self.exp_name == "h36m":
-            self.base_data_dir = os.path.join("/content/gdrive/MyDrive/MSR/data/h3.6m/dataset")
-        elif self.exp_name == "cmu":
-            self.base_data_dir = os.path.join("/content/gdrive/MyDrive/MSR/data/cmu_mocap")
+        env_map = {
+            "h36m": "H36M_DATA_DIR",
+            "cmu": "CMU_DATA_DIR",
+            "3dpw": "THREEDPW_DATA_DIR"
+        }
+        env_var = env_map.get(self.exp_name)
+
+        supplied_dir = data_dir
+        if not supplied_dir:
+            maybe_args = globals().get("args")
+            if maybe_args is not None and getattr(maybe_args, "data_dir", ""):
+                supplied_dir = maybe_args.data_dir
+        if not supplied_dir:
+            supplied_dir = os.environ.get(env_var, "")
+
+        if not supplied_dir:
+            raise ValueError(
+                f"Dataset directory not provided. Use --data_dir or set {env_var}"
+            )
+
+        self.base_data_dir = os.path.abspath(supplied_dir)
 
 
 # ---------------------------------------------------------------------------
@@ -148,6 +165,7 @@ parser.add_argument('--is_train', type=bool, default='', help='train mode')
 parser.add_argument('--is_load', type=bool, default='', help='load checkpoint')
 parser.add_argument('--model_path', type=str, default='', help='pretrained model')
 parser.add_argument('--dct', type=bool, default=True)
+parser.add_argument('--data_dir', type=str, default='', help='path to dataset directory')
 
 args = parser.parse_args()
 
