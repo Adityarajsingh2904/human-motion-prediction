@@ -27,7 +27,10 @@ import argparse
 import pandas as pd
 from pprint import pprint
 
-from run_dct import H36MRunner, CMURunner
+try:
+    from run_dct import H36MRunner, CMURunner
+except ImportError:  # fallback for environments without the DCT runners
+    from run import H36MRunner, CMURunner
 from datas_dct import define_actions, define_actions_cmu
 
 parser = argparse.ArgumentParser(description='manual to this script')
