@@ -165,6 +165,56 @@ def draw_pic_gt_pred_2d(gt, pred, I, J, LR, full_path):
     plt.close(1)
 
 
+def plot_confidence_overlay(predicted_seq, ground_truth_seq, save_path=None):
+    """Overlay predicted and ground truth skeletons with a joint-wise error heatmap.
+
+    Args:
+        predicted_seq (np.ndarray): Array of shape (T, J, 3) with predicted joint
+            coordinates.
+        ground_truth_seq (np.ndarray): Array of shape (T, J, 3) with ground
+            truth joint coordinates.
+        save_path (str, optional): Directory to save generated frames. If not
+            provided, the frames are displayed using ``plt.show``.
+
+    Each joint is colored from blue (low error) to red (high error).
+    """
+
+    assert predicted_seq.shape == ground_truth_seq.shape
+    T, J, _ = predicted_seq.shape
+
+    for t in range(T):
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection="3d")
+
+        pred = predicted_seq[t]
+        gt = ground_truth_seq[t]
+        errors = np.linalg.norm(pred - gt, axis=1)
+        max_error = np.max(errors) + 1e-6
+
+        for j in range(J):
+            color = plt.cm.jet(errors[j] / max_error)
+            ax.scatter(
+                pred[j, 0],
+                pred[j, 1],
+                pred[j, 2],
+                c=[color],
+                s=60,
+                label=f"Joint {j}" if t == 0 else "",
+            )
+
+        ax.set_title(f"Frame {t + 1} – Prediction Error Overlay")
+        ax.set_xlabel("X")
+        ax.set_ylabel("Y")
+        ax.set_zlabel("Z")
+        ax.view_init(elev=20, azim=-60)
+
+        if save_path:
+            plt.savefig(f"{save_path}/frame_{t:03d}.png")
+        else:
+            plt.show()
+        plt.close(fig)
+
+
 if __name__ == "__main__":
     import numpy as np
 
