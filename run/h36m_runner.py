@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-import logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+from utils.logging import setup_logging
+setup_logging()
 # encoding: utf-8
 
 from datas_dct import H36MMotionDataset, define_actions,draw_pic_gt_pred
