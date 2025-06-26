@@ -1,5 +1,6 @@
 
 # 🧍‍♂️ human-motion-prediction – GCN + DCT Based Human Pose Forecasting
+![CI](https://github.com/Adityarajsingh2904/human-motion-prediction/actions/workflows/python-ci.yml/badge.svg)
 
 **human-motion-prediction** is a graph-based deep learning model designed to forecast future human motion sequences.  
 It leverages **Discrete Cosine Transform (DCT)** and **Multi-Scale Residual Graph Convolutional Networks (MSR-GCN)** to achieve state-of-the-art performance on standard datasets like **Human3.6M** and **CMU Mocap**.
