@@ -4,6 +4,7 @@ import os
 import getpass
 import torch
 import numpy as np
+import argparse
 
 class Config():
     def __init__(self, exp_name="h36m", input_n=10, output_n=10, dct_n=15,
@@ -126,6 +127,29 @@ class Config():
             self.base_data_dir = os.path.join("/content/gdrive/MyDrive/MSR/data/h3.6m/dataset")
         elif self.exp_name == "cmu":
             self.base_data_dir = os.path.join("/content/gdrive/MyDrive/MSR/data/cmu_mocap")
+
+
+# ---------------------------------------------------------------------------
+# command line arguments
+# ---------------------------------------------------------------------------
+parser = argparse.ArgumentParser(description="configuration")
+parser.add_argument('--exp_name', type=str, default='cmu', help='h36m / cmu')
+parser.add_argument('--input_n', type=int, default=10)
+parser.add_argument('--output_n', type=int, default=25)
+parser.add_argument('--dct_n', type=int, default=35)
+parser.add_argument('--device', type=str, default='cuda:0')
+parser.add_argument('--num_works', type=int, default=0)
+parser.add_argument('--test_manner', type=str, default='all')
+parser.add_argument('--debug_step', type=int, default=1)
+parser.add_argument('--batch_size', type=int, default=16)
+parser.add_argument('--epochs', type=int, default=5000)
+parser.add_argument('--learning_rate', type=float, default=2e-4)
+parser.add_argument('--is_train', type=bool, default='', help='train mode')
+parser.add_argument('--is_load', type=bool, default='', help='load checkpoint')
+parser.add_argument('--model_path', type=str, default='', help='pretrained model')
+parser.add_argument('--dct', type=bool, default=True)
+
+args = parser.parse_args()
 
 
 
