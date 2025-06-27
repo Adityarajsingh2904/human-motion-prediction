@@ -6,7 +6,7 @@ setup_logging()
 from torch.utils.data import Dataset
 import numpy as np
 import os
-from .. import data_utils
+from datas import data_utils
 from ..multi_scale import downs_from_22
 from ..dct import get_dct_matrix, dct_transform_numpy
 
