@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-from utils.logging import setup_logging
-setup_logging()
 # encoding: utf-8
 
 from datas import CMUMotionDataset, define_actions_cmu, draw_pic_gt_pred

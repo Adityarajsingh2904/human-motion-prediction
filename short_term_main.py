@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-from utils.logging import setup_logging
-setup_logging()
 # encoding: utf-8
 
 import numpy as np
@@ -60,6 +58,9 @@ def parse_args():
 
 
 if __name__ == "__main__":
+    from utils.logging import setup_logging
+
+    setup_logging()
     args = parse_args()
 
     print("\n================== Arguments =================")

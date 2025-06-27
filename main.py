@@ -1,5 +1,3 @@
-from utils.logging import setup_logging
-setup_logging()
 import torch
 import os
 
@@ -22,60 +20,72 @@ seed_torch()
 import pandas as pd
 from configs.config import parse_args
 
-args = parse_args()
 
-from run import H36MRunner, CMURunner
-from datas_dct import define_actions, define_actions_cmu
+def main():
+    args = parse_args()
 
-print("\n================== Arguments =================")
-print(vars(args))
-print("==========================================\n")
+    from run import H36MRunner, CMURunner
+    from datas_dct import define_actions, define_actions_cmu
 
-if args.dct == True:
-    if args.exp_name == "h36m":
-        r = H36MRunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=args.dct_n,
-                       device=args.device, num_works=args.num_works,
-                       test_manner=args.test_manner, debug_step=args.debug_step,
-                       batch_size=args.batch_size, epochs=args.epochs,
-                       learning_rate=args.learning_rate, data_dir=args.data_dir)
-        acts = define_actions("all")
+    print("\n================== Arguments =================")
+    print(vars(args))
+    print("==========================================\n")
 
-    elif args.exp_name == "cmu":
-        r = CMURunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=args.dct_n,
-                      device=args.device, num_works=args.num_works,
-                      test_manner=args.test_manner, debug_step=args.debug_step,
-                      batch_size=args.batch_size, epochs=args.epochs,
-                      learning_rate=args.learning_rate, data_dir=args.data_dir)
-        acts = define_actions_cmu("all")
+    if args.dct == True:
+        if args.exp_name == "h36m":
+            r = H36MRunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=args.dct_n,
+                           device=args.device, num_works=args.num_works,
+                           test_manner=args.test_manner, debug_step=args.debug_step,
+                           batch_size=args.batch_size, epochs=args.epochs,
+                           learning_rate=args.learning_rate, data_dir=args.data_dir)
+            acts = define_actions("all")
 
-else:
-    if args.exp_name == "h36m":
-        r = H36MRunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=0,
-                       device=args.device, num_works=args.num_works,
-                       test_manner=args.test_manner, debug_step=args.debug_step,
-                       batch_size=args.batch_size, epochs=args.epochs,
-                       learning_rate=args.learning_rate, data_dir=args.data_dir)
-        acts = define_actions("all")
+        elif args.exp_name == "cmu":
+            r = CMURunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=args.dct_n,
+                          device=args.device, num_works=args.num_works,
+                          test_manner=args.test_manner, debug_step=args.debug_step,
+                          batch_size=args.batch_size, epochs=args.epochs,
+                          learning_rate=args.learning_rate, data_dir=args.data_dir)
+            acts = define_actions_cmu("all")
 
-    elif args.exp_name == "cmu":
-        r = CMURunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=0,
-                      device=args.device, num_works=args.num_works,
-                      test_manner=args.test_manner, debug_step=args.debug_step,
-                      batch_size=args.batch_size, epochs=args.epochs,
-                      learning_rate=args.learning_rate, data_dir=args.data_dir)
-        acts = define_actions_cmu("all")
+    else:
+        if args.exp_name == "h36m":
+            r = H36MRunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=0,
+                           device=args.device, num_works=args.num_works,
+                           test_manner=args.test_manner, debug_step=args.debug_step,
+                           batch_size=args.batch_size, epochs=args.epochs,
+                           learning_rate=args.learning_rate, data_dir=args.data_dir)
+            acts = define_actions("all")
 
-if args.is_load:
-    r.restore(args.model_path)
+        elif args.exp_name == "cmu":
+            r = CMURunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=0,
+                          device=args.device, num_works=args.num_works,
+                          test_manner=args.test_manner, debug_step=args.debug_step,
+                          batch_size=args.batch_size, epochs=args.epochs,
+                          learning_rate=args.learning_rate, data_dir=args.data_dir)
+            acts = define_actions_cmu("all")
 
-if args.is_train:
-    r.run()
-else:
-    errs = r.test()
+    if args.is_load:
+        r.restore(args.model_path)
 
-    col = r.cfg.frame_ids
-    d = pd.DataFrame(errs, index=acts, columns=col)
-    d.to_csv(f"{r.cfg.exp_name}_in{r.cfg.input_n}out{r.cfg.output_n}dctn{r.cfg.dct_n}_{r.cfg.test_manner}.csv", line_terminator="\n")
+    if args.is_train:
+        r.run()
+    else:
+        errs = r.test()
+
+        col = r.cfg.frame_ids
+        d = pd.DataFrame(errs, index=acts, columns=col)
+        d.to_csv(
+            f"{r.cfg.exp_name}_in{r.cfg.input_n}out{r.cfg.output_n}dctn{r.cfg.dct_n}_{r.cfg.test_manner}.csv",
+            line_terminator="\n",
+        )
+
+
+if __name__ == "__main__":
+    from utils.logging import setup_logging
+
+    setup_logging()
+    main()
 
 
 
