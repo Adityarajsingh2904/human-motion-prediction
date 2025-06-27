@@ -62,7 +62,8 @@ cd human-motion-prediction
 pip install -r requirements.txt
 ```
 
-The `requirements.txt` file now contains all Python packages used by the project.
+All Python dependencies are consolidated in `requirements.txt` at the repository
+root, so a single install command suffices.
 
 ---
 
@@ -72,9 +73,15 @@ The model expects the original **Human3.6M**, **CMU Mocap**, and optionally
 **3DPW** datasets. See
 [dataset_notes.txt](dataset_notes.txt) for detailed setup instructions.
 
-Specify the dataset location via the environment variables
-`H36M_DATA_DIR`, `CMU_DATA_DIR`, `THREEDPW_DATA_DIR`, or with the
-`--data_dir` command-line flag.
+Provide the dataset location using one of the following methods:
+
+1. Set the environment variable matching the dataset you intend to use:
+   - `H36M_DATA_DIR`
+   - `CMU_DATA_DIR`
+   - `THREEDPW_DATA_DIR`
+2. Or pass the directory path with the `--data_dir` command-line flag.
+
+The command-line flag overrides the environment variables when both are given.
 
 Example:
 
