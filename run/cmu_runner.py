@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-import logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+from utils.logging import setup_logging
+setup_logging()
 # encoding: utf-8
 
 from datas import CMUMotionDataset, define_actions_cmu, draw_pic_gt_pred
@@ -78,9 +78,6 @@ class CMURunner():
         self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
 
     
-        if self.cfg.device != "cpu":
-            self.dct_m = self.dct_m.cuda(self.cfg.device, non_blocking=True)
-            self.i_dct_m = self.i_dct_m.cuda(self.cfg.device, non_blocking=True)
 
         train_dataset = CMUMotionDataset(self.cfg.base_data_dir, actions="all", mode_name="train", input_n=self.cfg.input_n, output_n=self.cfg.output_n,
                                       dct_used=self.cfg.dct_n, split=0, sample_rate=2,

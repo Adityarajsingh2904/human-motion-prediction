@@ -1,5 +1,5 @@
-import logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+from utils.logging import setup_logging
+setup_logging()
 import torch
 import os
 
@@ -20,7 +20,9 @@ seed_torch()
 
 
 import pandas as pd
-from configs.config import args
+from configs.config import parse_args
+
+args = parse_args()
 
 from run import H36MRunner, CMURunner
 from datas_dct import define_actions, define_actions_cmu
