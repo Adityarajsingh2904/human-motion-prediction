@@ -65,6 +65,17 @@ pip install -r requirements.txt
 All Python dependencies are consolidated in `requirements.txt` at the repository
 root, so a single install command suffices.
 
+### Docker
+
+You can also build a Docker image for reproducible environments:
+
+```bash
+docker build -t human-motion-prediction .
+docker run --rm human-motion-prediction python main.py --help
+```
+
+The container installs all dependencies using the same `requirements.txt`.
+
 ---
 
 ## 📥 Datasets
