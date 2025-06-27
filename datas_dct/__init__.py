@@ -9,8 +9,8 @@
 @time    : 2021-07-27 16:34
 '''
 
-from . h36m import H36MMotionDataset
-from . cmu import CMUMotionDataset
+from .h36m import H36MMotionDataset
+from .cmu import CMUMotionDataset
 from .dct import get_dct_matrix, reverse_dct_torch, reverse_dct_numpy
 from datas import data_utils
 from datas.data_utils import define_actions, define_actions_cmu
