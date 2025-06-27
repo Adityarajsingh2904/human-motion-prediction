@@ -62,6 +62,8 @@ cd human-motion-prediction
 pip install -r requirements.txt
 ```
 
+The `requirements.txt` file now contains all Python packages used by the project.
+
 ---
 
 ## 📥 Datasets
