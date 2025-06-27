@@ -6,3 +6,4 @@ seaborn==0.11.1
 torch==1.7.0
 tensorboardX==2.1
 tqdm==4.62.0
+flake8
