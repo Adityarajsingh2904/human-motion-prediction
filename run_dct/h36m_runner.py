@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-from utils.logging import setup_logging
-setup_logging()
 # encoding: utf-8
 
 from datas_dct import H36MMotionDataset, get_dct_matrix, reverse_dct_torch, define_actions,draw_pic_gt_pred
