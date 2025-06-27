@@ -65,8 +65,20 @@ pip install -r requirements.txt
 
 ## 📥 Datasets
 
-- [Human3.6M](http://www.cs.stanford.edu/people/ashesh/h3.6m.zip)
-- [CMU Mocap](http://mocap.cs.cmu.edu/)
+The model expects the original **Human3.6M**, **CMU Mocap**, and optionally
+**3DPW** datasets. See
+[dataset_notes.txt](dataset_notes.txt) for detailed setup instructions.
+
+Specify the dataset location via the environment variables
+`H36M_DATA_DIR`, `CMU_DATA_DIR`, `THREEDPW_DATA_DIR`, or with the
+`--data_dir` command-line flag.
+
+Example:
+
+```bash
+export H36M_DATA_DIR=/datasets/h36m
+python main.py --exp_name h36m
+```
 
 ---
 
