@@ -31,9 +31,16 @@ The model encodes spatiotemporal skeleton features using:
 human-motion-prediction/
 ├── main.py               # Entry point for training and testing
 ├── short_term_main.py    # For short-term prediction
-├── model/                # Core GCN architecture
-├── data/                 # Data loading and processing scripts
-├── README.md             # This file
+├── nets/                 # Graph convolutional networks
+├── datas/                # Data loaders and utilities
+├── datas_dct/            # DCT-based data processing
+├── run/                  # Training runners
+├── run_dct/              # DCT training runners
+├── configs/              # Model and experiment configs
+├── utils/                # Helper utilities
+├── tests/                # Unit tests
+├── assets/               # Reports and results
+└── README.md             # This file
 ```
 
 ---
