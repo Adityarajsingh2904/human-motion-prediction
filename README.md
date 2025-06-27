@@ -75,19 +75,36 @@ The model expects the original **Human3.6M**, **CMU Mocap**, and optionally
 
 Provide the dataset location using one of the following methods:
 
-1. Set the environment variable matching the dataset you intend to use:
+1. **Environment variables** – set one of:
    - `H36M_DATA_DIR`
    - `CMU_DATA_DIR`
    - `THREEDPW_DATA_DIR`
-2. Or pass the directory path with the `--data_dir` command-line flag.
+2. **Command line** – pass the folder with `--data_dir`. This option overrides
+   the environment variable when both are supplied.
 
-The command-line flag overrides the environment variables when both are given.
-
-Example:
+### Examples
 
 ```bash
+# Human3.6M
 export H36M_DATA_DIR=/datasets/h36m
 python main.py --exp_name h36m
+```
+
+```bash
+# CMU Mocap
+export CMU_DATA_DIR=/datasets/cmu
+python main.py --exp_name cmu
+```
+
+```bash
+# 3DPW
+export THREEDPW_DATA_DIR=/datasets/3dpw
+python main.py --exp_name 3dpw
+```
+
+```bash
+# Passing the directory explicitly
+python main.py --exp_name h36m --data_dir /datasets/h36m
 ```
 
 ---
