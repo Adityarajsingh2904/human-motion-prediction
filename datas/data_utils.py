@@ -247,11 +247,14 @@ def normalize_data(data, data_mean, data_std, dim_to_use, actions, one_hot):
             data_out[key] = data_out[key][:, dim_to_use]
 
     else:
-        # TODO hard-coding 99 dimensions for un-normalized human poses
+        # data comes with one-hot actions appended at the end. Use the length of
+        # `data_mean` rather than a hard-coded 99 so this works with arbitrary
+        # pose dimensions.
+        pose_dims = data_mean.shape[0]
         for key in data.keys():
-            data_out[key] = np.divide((data[key][:, 0:99] - data_mean), data_std)
-            data_out[key] = data_out[key][:, dim_to_use]
-            data_out[key] = np.hstack((data_out[key], data[key][:, -nactions:]))
+            normalized = np.divide((data[key][:, :pose_dims] - data_mean), data_std)
+            normalized = normalized[:, dim_to_use]
+            data_out[key] = np.hstack((normalized, data[key][:, -nactions:]))
 
     return data_out
 
