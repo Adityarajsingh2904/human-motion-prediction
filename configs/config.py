@@ -167,7 +167,12 @@ parser.add_argument('--model_path', type=str, default='', help='pretrained model
 parser.add_argument('--dct', type=bool, default=True)
 parser.add_argument('--data_dir', type=str, default='', help='path to dataset directory')
 
-args = parser.parse_args()
+def parse_args():
+    """Parse command line arguments."""
+    global args
+    args = parser.parse_args()
+    return args
+
 
 
 

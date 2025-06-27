@@ -53,36 +53,42 @@ parser.add_argument('--is_load', type=bool, default='', help="")
 
 parser.add_argument('--model_path', type=str, default=os.path.join(r"E:\PythonWorkspace\MSRGCN\ckpt\pretrained", "cmu_in10out10dctn15_best_err24.8084.pth"), help="")
 
-args = parser.parse_args()
 
-print("\n================== Arguments =================")
-pprint(vars(args), indent=4)
-print("==========================================\n")
+def parse_args():
+    return parser.parse_args()
 
-if args.exp_name == "h36m":
-    r = H36MRunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=args.dct_n, device=args.device, num_works=args.num_works,
-                   test_manner=args.test_manner, debug_step=args.debug_step)
-    acts = define_actions("all")
 
-elif args.exp_name == "cmu":
-    r = CMURunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=args.dct_n,
-                   device=args.device, num_works=args.num_works,
-                   test_manner=args.test_manner, debug_step=args.debug_step)
-    acts = define_actions_cmu("all")
+if __name__ == "__main__":
+    args = parse_args()
 
-r.model.to(device)
+    print("\n================== Arguments =================")
+    pprint(vars(args), indent=4)
+    print("==========================================\n")
 
-if args.is_load:
-    r.restore(args.model_path)
+    if args.exp_name == "h36m":
+        r = H36MRunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=args.dct_n, device=args.device, num_works=args.num_works,
+                       test_manner=args.test_manner, debug_step=args.debug_step)
+        acts = define_actions("all")
 
-if args.is_train:
-    r.run()
-else:
-    errs = r.test()
+    elif args.exp_name == "cmu":
+        r = CMURunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=args.dct_n,
+                       device=args.device, num_works=args.num_works,
+                       test_manner=args.test_manner, debug_step=args.debug_step)
+        acts = define_actions_cmu("all")
 
-    col = r.cfg.frame_ids
-    d = pd.DataFrame(errs, index=acts, columns=col)
-    d.to_csv(f"{r.cfg.exp_name}_in{r.cfg.input_n}out{r.cfg.output_n}dctn{r.cfg.dct_n}_{r.cfg.test_manner}.csv", line_terminator="\n")
+    r.model.to(device)
 
-    # r.save(os.path.join(r.cfg.ckpt_dir, "models", '{}_in{}out{}dctn{}_best_epoch{}_err{:.4f}.pth'.format(r.cfg.exp_name, r.cfg.input_n, r.cfg.output_n, r.cfg.dct_n, r.start_epoch, np.mean(errs))),
-    #        r.start_epoch, np.mean(errs), np.mean(errs))
+    if args.is_load:
+        r.restore(args.model_path)
+
+    if args.is_train:
+        r.run()
+    else:
+        errs = r.test()
+
+        col = r.cfg.frame_ids
+        d = pd.DataFrame(errs, index=acts, columns=col)
+        d.to_csv(f"{r.cfg.exp_name}_in{r.cfg.input_n}out{r.cfg.output_n}dctn{r.cfg.dct_n}_{r.cfg.test_manner}.csv", line_terminator="\n")
+
+        # r.save(os.path.join(r.cfg.ckpt_dir, "models", '{}_in{}out{}dctn{}_best_epoch{}_err{:.4f}.pth'.format(r.cfg.exp_name, r.cfg.input_n, r.cfg.output_n, r.cfg.dct_n, r.start_epoch, np.mean(errs))),
+        #        r.start_epoch, np.mean(errs), np.mean(errs))
