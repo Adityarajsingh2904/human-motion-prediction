@@ -37,7 +37,7 @@ if args.dct == True:
                        device=args.device, num_works=args.num_works,
                        test_manner=args.test_manner, debug_step=args.debug_step,
                        batch_size=args.batch_size, epochs=args.epochs,
-                       learning_rate=args.learning_rate)
+                       learning_rate=args.learning_rate, data_dir=args.data_dir)
         acts = define_actions("all")
 
     elif args.exp_name == "cmu":
@@ -45,7 +45,7 @@ if args.dct == True:
                       device=args.device, num_works=args.num_works,
                       test_manner=args.test_manner, debug_step=args.debug_step,
                       batch_size=args.batch_size, epochs=args.epochs,
-                      learning_rate=args.learning_rate)
+                      learning_rate=args.learning_rate, data_dir=args.data_dir)
         acts = define_actions_cmu("all")
 
 else:
@@ -54,7 +54,7 @@ else:
                        device=args.device, num_works=args.num_works,
                        test_manner=args.test_manner, debug_step=args.debug_step,
                        batch_size=args.batch_size, epochs=args.epochs,
-                       learning_rate=args.learning_rate)
+                       learning_rate=args.learning_rate, data_dir=args.data_dir)
         acts = define_actions("all")
 
     elif args.exp_name == "cmu":
@@ -62,7 +62,7 @@ else:
                       device=args.device, num_works=args.num_works,
                       test_manner=args.test_manner, debug_step=args.debug_step,
                       batch_size=args.batch_size, epochs=args.epochs,
-                      learning_rate=args.learning_rate)
+                      learning_rate=args.learning_rate, data_dir=args.data_dir)
         acts = define_actions_cmu("all")
 
 if args.is_load:

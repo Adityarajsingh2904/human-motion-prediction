@@ -49,7 +49,7 @@ def lr_decay(optimizer, lr_now, gamma):
 class CMURunner():
     def __init__(self, exp_name="cmu", input_n=10, output_n=10, dct_n=15,
                  device="cuda:0", num_works=0, test_manner="all", debug_step=1,
-                 batch_size=16, epochs=5000, learning_rate=2e-4):
+                 batch_size=16, epochs=5000, learning_rate=2e-4, data_dir=None):
         super(CMURunner, self).__init__()
 
         self.start_epoch = 1
@@ -58,7 +58,7 @@ class CMURunner():
         self.cfg = Config(exp_name=exp_name, input_n=input_n, output_n=output_n,
                          dct_n=dct_n, device=device, num_works=num_works,
                          test_manner=test_manner, train_batch_size=batch_size,
-                         lr=learning_rate, n_epoch=epochs)
+                         lr=learning_rate, n_epoch=epochs, data_dir=data_dir)
         print("\n================== Configs =================")
         pprint(vars(self.cfg), indent=4)
         print("==========================================\n")
