@@ -25,12 +25,18 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+
+        pip install -r requirements.txt -f https://download.pytorch.org/whl/torch_stable.html
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+
+
         restore-keys: |
           ${{ runner.os }}-pip-
     - name: Install dependencies
       run: |
-        pip install -r requirements.txt -f https://download.pytorch.org/whl/torch_stable.html
+
+        pip install -r requirements.txt
+
     - name: Lint with flake8
       run: |
         flake8 . --exclude=__pycache__,.git,assets
