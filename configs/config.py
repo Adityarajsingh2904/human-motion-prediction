@@ -130,19 +130,11 @@ class Config():
         }
         env_var = env_map.get(self.exp_name)
 
-        supplied_dir = data_dir
-        if not supplied_dir:
-            maybe_args = globals().get("args")
-            if maybe_args is not None and getattr(maybe_args, "data_dir", ""):
-                supplied_dir = maybe_args.data_dir
-        if not supplied_dir:
-            supplied_dir = os.environ.get(env_var, "")
-
+        supplied_dir = data_dir or os.environ.get(env_var, "")
         if not supplied_dir:
             raise ValueError(
                 f"Dataset directory not provided. Use --data_dir or set {env_var}"
             )
-
         self.base_data_dir = os.path.abspath(supplied_dir)
 
 
@@ -169,9 +161,7 @@ parser.add_argument('--data_dir', type=str, default='', help='path to dataset di
 
 def parse_args():
     """Parse command line arguments."""
-    global args
-    args = parser.parse_args()
-    return args
+    return parser.parse_args()
 
 
 

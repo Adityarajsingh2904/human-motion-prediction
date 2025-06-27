@@ -48,6 +48,7 @@ parser.add_argument('--test_manner', type=str, default="8", help="all / 8")
 parser.add_argument('--debug_step', type=int, default=1, help="")
 parser.add_argument('--is_train', type=bool, default='', help="")
 parser.add_argument('--is_load', type=bool, default='', help="")
+parser.add_argument('--data_dir', type=str, default='', help='path to dataset directory')
 
 # parser.add_argument('--model_path', type=str, default=os.path.join(r"E:\PythonWorkspace\MSRGCN\ckpt\pretrained", "h36m_in10out10dctn15_best_err36.3625.pth"), help="")
 
@@ -67,13 +68,13 @@ if __name__ == "__main__":
 
     if args.exp_name == "h36m":
         r = H36MRunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=args.dct_n, device=args.device, num_works=args.num_works,
-                       test_manner=args.test_manner, debug_step=args.debug_step)
+                       test_manner=args.test_manner, debug_step=args.debug_step, data_dir=args.data_dir)
         acts = define_actions("all")
 
     elif args.exp_name == "cmu":
         r = CMURunner(exp_name=args.exp_name, input_n=args.input_n, output_n=args.output_n, dct_n=args.dct_n,
                        device=args.device, num_works=args.num_works,
-                       test_manner=args.test_manner, debug_step=args.debug_step)
+                       test_manner=args.test_manner, debug_step=args.debug_step, data_dir=args.data_dir)
         acts = define_actions_cmu("all")
 
     r.model.to(device)
