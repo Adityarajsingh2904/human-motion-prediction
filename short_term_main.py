@@ -48,9 +48,21 @@ parser.add_argument('--is_train', type=bool, default='', help="")
 parser.add_argument('--is_load', type=bool, default='', help="")
 parser.add_argument('--data_dir', type=str, default='', help='path to dataset directory')
 
-# parser.add_argument('--model_path', type=str, default=os.path.join(r"E:\PythonWorkspace\MSRGCN\ckpt\pretrained", "h36m_in10out10dctn15_best_err36.3625.pth"), help="")
+# Example for loading a pretrained checkpoint
+# parser.add_argument(
+#     '--model_path',
+#     type=str,
+#     default=os.path.join('ckpt', 'pretrained',
+#                          'cmu_in10out10dctn15_best_err24.8084.pth'),
+#     help='path to pretrained model'
+# )
 
-parser.add_argument('--model_path', type=str, default=os.path.join(r"E:\PythonWorkspace\MSRGCN\ckpt\pretrained", "cmu_in10out10dctn15_best_err24.8084.pth"), help="")
+parser.add_argument(
+    '--model_path',
+    type=str,
+    default='',
+    help='path to pretrained model'
+)
 
 
 def parse_args():
